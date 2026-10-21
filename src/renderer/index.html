@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'" />
+    <title>Interview Assistant</title>
+    <link rel="stylesheet" href="./src/styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Interview Assistant</h1>
+      <div class="controls">
+        <span id="status" class="status">Idle</span>
+        <button id="start">Start listening</button>
+        <button id="stop" disabled>Stop</button>
+        <button id="toggle-settings">Settings</button>
+      </div>
+    </header>
+
+    <section id="settings" hidden>
+      <div class="grid">
+        <label>AI provider <select id="llm-provider"></select></label>
+        <label>AI model <input id="llm-model" placeholder="provider default" /></label>
+        <label>Speech-to-text <select id="stt-provider"></select></label>
+        <label>Answer language
+          <select id="answer-language">
+            <option value="auto">Same as the question</option>
+            <option value="ro">Romanian</option>
+            <option value="en">English</option>
+          </select>
+        </label>
+        <label>Ollama URL <input id="ollama-url" /></label>
+        <label>Local Whisper URL <input id="whisper-url" /></label>
+        <label>whisper-server.exe path (optional) <input id="whisper-server-path" placeholder="C:\whisper\whisper-server.exe" /></label>
+        <label>Whisper model path <input id="whisper-model-path" placeholder="C:\whisper\ggml-large-v3-turbo.bin" /></label>
+      </div>
+      <fieldset>
+        <legend>API keys (stored encrypted on this PC, never sent anywhere except the provider)</legend>
+        <div id="keys"></div>
+      </fieldset>
+      <label class="block">Resume (paste text)
+        <textarea id="resume" rows="8" placeholder="Paste your CV here so answers are based on your real experience"></textarea>
+      </label>
+      <button id="save-settings">Save settings</button>
+    </section>
+
+    <main>
+      <section class="panel">
+        <h2>Transcript</h2>
+        <ol id="transcript"></ol>
+        <form id="simulate" class="simulate">
+          <select id="simulate-speaker">
+            <option value="interviewer">Interviewer</option>
+            <option value="me">Me</option>
+          </select>
+          <input id="simulate-text" placeholder="Type a line to test without audio, e.g. Tell me about yourself?" />
+          <button type="submit">Add</button>
+        </form>
+      </section>
+      <section class="panel">
+        <h2>Questions and suggested answers</h2>
+        <ol id="answers"></ol>
+      </section>
+    </main>
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>
